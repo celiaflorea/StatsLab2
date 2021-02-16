@@ -1,0 +1,12 @@
+---
+title: "Lab2"
+author: "celiaflorea"
+date: "2/11/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+###test
