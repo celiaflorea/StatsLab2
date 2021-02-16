@@ -1,0 +1,168 @@
+---
+title             : "Reproducible analysis of Schroeder & Epley, 2015: Do you come across as smarter when people read what you say or hear what you say"
+shorttitle        : "Semester Project"
+
+author: 
+  - name          : "Celia S. Florea"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "2900 Bedford Avenue, Brooklyn NY"
+    email         : "celia.florea99@bcmail.cuny.edu"
+    
+
+affiliation:
+  - id            : "1"
+    institution   : "Brooklyn College of the City University of New York"
+  
+
+authornote: |
+  Celia S. Florea, Department of Psychology, Brooklyn College of the City University of New York.
+
+
+  
+
+abstract: |
+  One or two sentences providing a **basic introduction** to the field,  comprehensible to a scientist in any discipline.
+  
+  Two to three sentences of **more detailed background**, comprehensible  to scientists in related disciplines.
+  
+  One sentence clearly stating the **general problem** being addressed by  this particular study.
+  
+  One sentence summarizing the main result (with the words "**here we show**" or their equivalent).
+  
+  Two or three sentences explaining what the **main result** reveals in direct comparison to what was thought to be the case previously, or how the  main result adds to previous knowledge.
+  
+  One or two sentences to put the results into a more **general context**.
+  
+  Two or three sentences to provide a **broader perspective**, readily comprehensible to a scientist in any discipline.
+  
+  <!-- https://tinyurl.com/ybremelq -->
+  
+keywords          : "keywords"
+wordcount         : "X"
+
+bibliography      : ["r-references.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : yes
+mask              : no
+draft             : no
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+r_refs("r-references.bib")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+# Method
+
+This report reproduces the analysis from experiment 4 in Schroeder & Epley (2015). The data were downloaded from the "open data" folder for this class, from the file named "SchroederEpley2015data.csv". In experiment 4 Schroeder & Epley (2015) replicated the results of experiments 1-3 but here enlisted professional recruiters as participants to improve the ecological validity of their experiment. 
+
+## Participants
+
+The participants N=39 (mean age=30.85 years, SD= 6.24, 30 females) in experiment 4 were professional recruiters from fortune 500 companies who had agreed to evaluate potential candidates at the University of Chicago Booth School of Business. The experimenters reached out to 66 recruiters who had attended such a jobs conference at the University of Chicago via email to request their participation in a survey. Of the 66 recruiters contacted, 39 responded and agreed to participate.  
+
+## Materials 
+
+The stimuli which were developed for experiment 1, of which a subset were used here in experiment 4, were created from video recordings of MBA students spoken elevator pitches made for potential employers. It was predicted that evaluators would respond more positively to the pitches that they heard rather than those they read, as this would make the candidates appear more thoughtful and intelligent. 
+
+The survey then asked participants to rate each potential candidate on 3 dimensions: the candidate's competence (as compared to the average candidate for a similar position), the candidate's thoughtfulness, and the candidates' intelligence. The recruiters were then asked to rate their general impressions of the candidates with questions that probed how much they liked the candidate, how positive and negative their overall impressions were and whether or not they would opt to hire the candidate. 
+
+## Procedure
+
+Participants responded to an online survey and were randomly assigned to either listen to recordings of spoken pitches (audio condition) or the same pitch in text (transcript condition) and answered survey questions. The materials were the same as experiment 1 (except that there was no video condition in experiment 4). The survey questions were rated on a likert type scale from  0-10 (e.g. 0 = much less thoughtful, 10 = much more thoughtful). 
+
+The recruiters ratings of the job candidates pitches were collapsed into into composite measures of intellect (cronbach's alpha = .92) and general impressions (cronbach's alpha = .93). 
+
+## Data analysis
+
+We used `r cite_r("r-references.bib")` for all our analyses.
+
+# Results
+```{r}
+
+library(data.table)
+library(dplyr)
+library(ggplot2)
+library(papaja)
+library(readr)
+library(csvread)
+
+
+all_data <- read_csv("SchroederEpley2015data.csv")
+
+
+all_data$CONDITION <- as.factor(all_data$CONDITION)
+levels(all_data$CONDITION) <- c("transcript","audio")
+  
+
+aggregate(Intellect_Rating~CONDITION,all_data,mean)
+aggregate(Impression_Rating~CONDITION,all_data,mean)
+aggregate(Hire_Rating~CONDITION,all_data,mean)
+
+t.test(Intellect_Rating~CONDITION, data=all_data, var.equal=TRUE)
+t.test(Impression_Rating~CONDITION, data=all_data, var.equal=TRUE)
+t.test(Hire_Rating~CONDITION, data=all_data, var.equal=TRUE)
+
+
+
+```
+```{r}
+
+plot_all <- data_frame(condition,rating_type,ratings)
+
+
+
+descriptive_all <- plot_all %>% 
+                    group_by(condition,rating_type) %>% 
+                    summarise(means= mean(ratings),
+                              SEs = sd(ratings)/sqrt(length(ratings)))
+
+condition <- rep(all_data$CONDITION,3)
+
+ggplot(descriptive_all, aes(x=rating_type, y=means, group=condition))+ 
+  geom_bar(stat="identity", aes(fill=condition), position='dodge')+ 
+  geom_errorbar(aes(ymin=means-SEs,               
+                    ymax=means+SEs), 
+                width=.1, 
+                position = position_dodge(width=.9)) +
+  geom_point(data=plot_all, aes(x=rating_type, 
+                                y=ratings, 
+                                group=condition), 
+             alpha=.25, 
+             position = position_dodge(width=.9))+
+  geom_point(alpha=.25)+
+  ylab("Rating")
+
+
+```
+
+
+
+# Discussion
+
+
+\newpage
+
+# References
+
+Schroeder, J., & Epley, N. (2015). The Sound of Intellect: Speech Reveals a Thoughtful Mind, Increasing a Job Candidate’s Appeal. Psychological Science, 1, 15.
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id="refs" custom-style="Bibliography"></div>
+\endgroup
