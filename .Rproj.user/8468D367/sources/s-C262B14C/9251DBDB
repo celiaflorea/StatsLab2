@@ -1,23 +1,25 @@
 {
-    "id": "154862AA",
+    "id": "9251DBDB",
     "path": "~/Stats class/StatsLab1/semester project/semester-project-example.Rmd",
     "project_path": null,
     "type": "r_markdown",
-    "hash": "3146651788",
+    "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1613439825120.0,
+    "created": 1613444379741.0,
     "source_on_save": false,
-    "relative_order": 2,
+    "relative_order": 3,
     "properties": {
-        "last_setup_crc32": ""
+        "last_setup_crc32": "",
+        "cursorPosition": "0,3",
+        "scrollLine": "0"
     },
     "folds": "",
     "lastKnownWriteTime": 1612174174,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1613440220279,
+    "last_content_update": 1612174174,
     "read_only": false,
     "read_only_alternatives": []
 }

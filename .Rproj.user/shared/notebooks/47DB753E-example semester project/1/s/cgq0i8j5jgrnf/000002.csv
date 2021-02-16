@@ -1,0 +1,5 @@
+"0","null_distribution <- stroop_df %>%"
+"0","                      group_by(Subject) %>%"
+"0","                      summarise(meanRT= mean(RTs)) %>%"
+"0","                      summarise(overall_meanRT = mean(meanRT),"
+"0","                                overall_sd = sd(meanRT))"
