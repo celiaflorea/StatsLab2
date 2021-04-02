@@ -3,7 +3,7 @@
     "path": "~/Stats class/StatsLab1/semester project/semester project.csf.Rmd",
     "project_path": null,
     "type": "r_markdown",
-    "hash": "877530297",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1613445366403.0,
@@ -11,16 +11,16 @@
     "relative_order": 2,
     "properties": {
         "cursorPosition": "132,38",
-        "scrollLine": "121",
-        "last_setup_crc32": "C262B14C27b971af",
+        "scrollLine": "0",
+        "last_setup_crc32": "",
         "ignored_words": "evaluators\n"
     },
     "folds": "",
-    "lastKnownWriteTime": 1613462621,
+    "lastKnownWriteTime": 1613492077,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1613462621722,
+    "last_content_update": 1614630679342,
     "read_only": false,
     "read_only_alternatives": []
 }

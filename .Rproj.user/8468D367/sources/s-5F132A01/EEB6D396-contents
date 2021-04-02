@@ -63,7 +63,8 @@ r_refs("r-references.bib")
 ```{r analysis-preferences}
 # Seed for random number generation
 set.seed(42)
-knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed, echo = FALSE)
+
 ```
 
 # Method
@@ -119,33 +120,94 @@ t.test(Hire_Rating~CONDITION, data=all_data, var.equal=TRUE)
 
 
 ```
+
 ```{r}
 
-plot_all <- data_frame(condition,rating_type,ratings)
+descriptive_df <- all_data %>% 
+                    group_by(CONDITION) %>% 
+                    summarise(means= mean(Intellect_Rating),
+                              SEs = sd(Intellect_Rating)/sqrt(length(Intellect_Rating)))
 
 
+ggplot(descriptive_df, aes(x=CONDITION, y=means))+ 
+  geom_bar(stat="identity", aes(fill=CONDITION))+ 
+  geom_errorbar(aes(ymin=means-SEs,               
+                    ymax=means+SEs), width=.1) +
+  geom_point(data=all_data, aes(x=CONDITION, y=Intellect_Rating), alpha=.5)+
+  geom_point(alpha=.25)+
+  ylab("Intellect Rating")
+
+```
+```{r}
+
+descriptive_df <- all_data %>% 
+                    group_by(CONDITION) %>% 
+                    summarise(means= mean(Impression_Rating),
+                              SEs = sd(Impression_Rating)/sqrt(length(Impression_Rating)))
+
+
+ggplot(descriptive_df, aes(x=CONDITION, y=means))+ 
+  geom_bar(stat="identity", aes(fill=CONDITION))+ 
+  geom_errorbar(aes(ymin=means-SEs,               
+                    ymax=means+SEs), width=.1) +
+  geom_point(data=all_data, aes(x=CONDITION, y=Impression_Rating), alpha=.5)+
+  geom_point(alpha=.25)+
+  ylab("Impression Rating")
+
+```
+```{r}
+
+descriptive_df <- all_data %>% 
+                    group_by(CONDITION) %>% 
+                    summarise(means= mean(Hire_Rating),
+                              SEs = sd(Hire_Rating)/sqrt(length(Hire_Rating)))
+
+ggplot(descriptive_df, aes(x=CONDITION, y=means))+ 
+  geom_bar(stat="identity", aes(fill=CONDITION))+ 
+  geom_errorbar(aes(ymin=means-SEs,               
+                    ymax=means+SEs), width=.1) +
+  geom_point(data=all_data, aes(x=CONDITION, y=Hire_Rating), alpha=.5)+
+  geom_point(alpha=.25)+
+  ylab("Hire Rating")
+
+```
+
+```{r}
+
+
+condition <- rep(all_data$CONDITION,3)
+
+ratings <- c(all_data$Intellect_Rating,
+             all_data$Impression_Rating,
+             all_data$Hire_Rating)
+
+num_to_repeat <- length(all_data$CONDITION)
+
+rating_type <- rep(c("Intellect","Impression","Hire"),num_to_repeat)
+
+##                                                         ^correct?
+
+plot_all <- data.frame(condition,rating_type,ratings)
 
 descriptive_all <- plot_all %>% 
                     group_by(condition,rating_type) %>% 
                     summarise(means= mean(ratings),
                               SEs = sd(ratings)/sqrt(length(ratings)))
 
-condition <- rep(all_data$CONDITION,3)
 
 ggplot(descriptive_all, aes(x=rating_type, y=means, group=condition))+ 
   geom_bar(stat="identity", aes(fill=condition), position='dodge')+ 
   geom_errorbar(aes(ymin=means-SEs,               
                     ymax=means+SEs), 
-                width=.1, 
-                position = position_dodge(width=.9)) +
+                    width=.1, 
+                    position = position_dodge(width=.9)) +
   geom_point(data=plot_all, aes(x=rating_type, 
                                 y=ratings, 
                                 group=condition), 
              alpha=.25, 
              position = position_dodge(width=.9))+
-  geom_point(alpha=.25)+
-  ylab("Rating")
-
+            geom_point(alpha=.25)+
+          ylab("Rating")
 
 ```
 
