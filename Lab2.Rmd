@@ -18,31 +18,8 @@ Problems
     - include different symbols to differentiate the lines
 
 
-```{r}
 
-library(tibble)
 
-slamecka_design <- tibble(number_of_learning_trials = rep(c(2,4,8), each=6),
-                          number_of_IL = rep(rep(c(2,4,8), 2), 3),
-                          subjects = 1:18,
-                          recall = c(35,21,6,
-                                   39,31,8,
-                                   40,34,18,
-                                   52,42,26,
-                                   61,58,46,
-                                   73,66,52
-                                   )
-                          )
-library(ggplot2)
-
-ggplot(slamecka_design,aes(x=number_of_IL,
-                           group = number_of_learning_trials,
-                           y=recall))+
-  geom_line(stat = "summary", fun = "mean")+
-  geom_point(stat = "summary", fun = "mean",)+
-  theme_classic()
-
-```
 ```{r}
 
 slamecka_design <- tibble(number_of_learning_trials = rep(c(2,4,8), each=6),
@@ -57,22 +34,28 @@ slamecka_design <- tibble(number_of_learning_trials = rep(c(2,4,8), each=6),
                                    )
                           )
 
+slamecka_design$number_of_learning_trials <- as.factor(slamecka_design$number_of_learning_trials)
+
 ggplot(slamecka_design,aes(x=number_of_IL,
-                           group = number_of_learning_trials,
+shape = number_of_learning_trials,
                            y=recall))+
   geom_line(stat = "summary", fun = "mean")+
   geom_point(stat = "summary", fun = "mean",)+
   theme_classic()+
   xlab("Number of interpolated lists")+
   ylab("Number of words correct")+
-
+ 
+  scale_y_continuous(breaks=c(20,40,60,80), limits=c(0,80))+
+  scale_x_continuous(breaks=c(2,4,8))+
+  
+  scale_fill_continuous(name= "Number of learning trials")+
+  labels=c("2 trials", "4 trials", "8 trials")
+  
   
 
-
+  
 ```
 ```{r}
-
-
 slamecka_design <- tibble(number_of_learning_trials = rep(c(2,4,8), each=6),
                           number_of_IL = rep(rep(c(2,4,8), 2), 3),
                           subjects = 1:18,
@@ -85,25 +68,52 @@ slamecka_design <- tibble(number_of_learning_trials = rep(c(2,4,8), each=6),
                                    )
                           )
 
+slamecka_design$number_of_learning_trials <- as.factor(slamecka_design$number_of_learning_trials)
+
 ggplot(slamecka_design,aes(x=number_of_IL,
-                           group = number_of_learning_trials,
+shape = number_of_learning_trials,
                            y=recall))+
   geom_line(stat = "summary", fun = "mean")+
   geom_point(stat = "summary", fun = "mean",)+
   theme_classic()+
-  scale_x_discrete( name= "Number of interpolated lists", labels = "0, 2, 4, 8")+
-  scale_y_continuous(name = "Number of words correct", labels ="0, 20, 40, 60, 80")
-
+  xlab("Number of interpolated lists")+
+  ylab("Number of words correct")+
+ 
+  scale_y_continuous(breaks=c(20,40,60,80), limits=c(0,80))+
+  scale_x_continuous(breaks=c(2,4,8))
   
-
-
 ```
-
 
 ```{r}
-scale_x_discrete( name= "Number of interpolated lists", breaks = "", labels, limits)+
-  scale_y_continuous(name = "Number of words correct", breaks, labels, limits)
-```
+slamecka_design <- tibble(number_of_learning_trials = rep(c(2,4,8), each=6),
+                          number_of_IL = rep(rep(c(2,4,8), 2), 3),
+                          subjects = 1:18,
+                          recall = c(35,21,6,
+                                   39,31,8,
+                                   40,34,18,
+                                   52,42,26,
+                                   61,58,46,
+                                   73,66,52
+                                   )
+                          )
 
+slamecka_design$number_of_learning_trials <- as.factor(slamecka_design$number_of_learning_trials)
+
+ggplot(slamecka_design,aes(x=number_of_IL,
+shape = number_of_learning_trials,
+                           y=recall))+
+  geom_line(stat = "summary", fun = "mean")+
+  geom_point(stat = "summary", fun = "mean",)+
+  theme_classic()+
+  xlab("Number of interpolated lists")+
+  ylab("Number of words correct")+
+ 
+  scale_y_continuous(breaks=c(20,40,60,80), limits=c(0,80))+
+  scale_x_continuous(breaks=c(2,4,8))+
+  aes = "new legend title" (name= "Number of learning trials",
+                      labels=c("2 trials", "4 trials", "8 trials"))
+
+```
+##label legends 
 
 2. (3 points) The Slamecka design was a 3x3 design. The practice variable had three levels (2, 4, and 8), and was assumed to increase memory recall with increasing amount of practice. The interpolated learning (IL or distraction) variable had three levels (0, 4, and 8), and was assumed to decrease memory recall with increasing amounts of distraction.

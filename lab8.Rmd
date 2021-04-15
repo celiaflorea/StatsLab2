@@ -1,0 +1,71 @@
+---
+title: "lab8"
+author: "celiaflorea"
+date: "4/15/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+##1 Consider a 2x2 design. Assume the DV is measured from a normal distribution with mean 0, and standard deviation 1. Assume that the main effect of A causes a total shift of .5 standard deviations of the mean between the levels. Assume that level 1 of B is a control, where you expect to measure the standard effect of A. Assume that level 2 of B is an experimental factor intended to reduce the effect of A by .25 standard deviations.
+
+A. create a ggplot2 figure that depicts the expected results from this design (2 points) 
+
+Conduct simulation-based power analyses to answer the questions.
+
+B. How many subjects are needed to detect the main effect of A with power = .8? (2 points)
+
+C. How many subjects are needed to detect the interaction effect with power = .8? (2 points)
+
+```{r}
+# define 2-factor score model
+grand_mean <- 0
+A <- c(-0,.5)
+B <- c(0, 0)
+AB <- rep(0,0,0,-.25)
+
+# create design table
+library(tibble)
+model_data <- tibble()
+for(i in 1:length(A)){
+  for(j in 1:length(B)){
+    IVA <- i
+    IVB <- j
+    DV <- grand_mean+A[i]+B[j]+AB[(i-1)*length(B)+j]
+    sc_GM <- grand_mean
+    sc_A <- A[i]
+    sc_B <- B[j]
+    sc_AB <- AB[(i-1)*length(B)+j]
+    row_entry <- tibble(IVA,IVB,DV,
+                        sc_GM,sc_A,sc_B,sc_AB)
+    model_data <- rbind(model_data,row_entry)
+  }
+}
+
+knitr::kable(model_data)
+```
+
+
+
