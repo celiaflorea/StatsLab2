@@ -20,6 +20,7 @@
 "0","  theme_classic()+"
 "0","  xlab(""Number of interpolated lists"")+"
 "0","  ylab(""Number of words correct"")+"
+"0",""
 "0"," "
 "0","  scale_y_continuous(breaks=c(20,40,60,80), limits=c(0,80))+"
 "0","  scale_x_continuous(breaks=c(2,4,8))"

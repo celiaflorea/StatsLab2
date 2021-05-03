@@ -1,0 +1,7 @@
+"0","  scale_color_manual(legend_title=element_blank(),"
+"0","                      labels=c(""8 learning trials"", "
+"0","                      ""4 learning trials"","
+"0","                      ""2 learning trials""))"
+"2","Error in discrete_scale(aesthetic, ""manual"", pal, breaks = breaks, ...) : 
+  unused argument (legend_title = list())
+"

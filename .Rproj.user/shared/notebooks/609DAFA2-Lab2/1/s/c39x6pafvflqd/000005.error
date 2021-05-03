@@ -1,0 +1,1 @@
+{"frames":[],"message":"Error in tibble(number_of_learning_trials = rep(c(2, 4, 8), each = 6),  : \n  could not find function \"tibble\"\n"}
