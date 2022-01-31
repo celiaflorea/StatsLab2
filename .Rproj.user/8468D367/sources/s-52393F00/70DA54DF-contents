@@ -112,4 +112,5 @@ aov_out <- aov(centiseconds ~ (subject +
 summary(aov_out)
 
 ```
+yes
 
